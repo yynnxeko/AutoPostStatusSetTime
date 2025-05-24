@@ -28,237 +28,203 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.button1 = new System.Windows.Forms.Button();
-            this.label2 = new System.Windows.Forms.Label();
-            this.rtbLinkGroup = new System.Windows.Forms.RichTextBox();
-            this.lblUid = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.txtDuongDanThuMucProfiles = new System.Windows.Forms.TextBox();
-            this.txtUidPassProxy2Fa = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
-            this.chkSaveLogin = new System.Windows.Forms.CheckBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.rtbContent = new System.Windows.Forms.RichTextBox();
-            this.rtbDatePost = new System.Windows.Forms.RichTextBox();
-            this.rtbTimePost = new System.Windows.Forms.RichTextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.rtbPathFileImg = new System.Windows.Forms.RichTextBox();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
-            this.SuspendLayout();
+            button1 = new Button();
+            label2 = new Label();
+            rtbLinkGroup = new RichTextBox();
+            lblUid = new Label();
+            txtUidPassProxy2Fa = new TextBox();
+            label4 = new Label();
+            numericUpDown1 = new NumericUpDown();
+            chkSaveLogin = new CheckBox();
+            label6 = new Label();
+            label7 = new Label();
+            label8 = new Label();
+            rtbContent = new RichTextBox();
+            rtbDatePost = new RichTextBox();
+            rtbTimePost = new RichTextBox();
+            label1 = new Label();
+            rtbPathFileImg = new RichTextBox();
+            ((System.ComponentModel.ISupportInitialize)numericUpDown1).BeginInit();
+            SuspendLayout();
             // 
             // button1
             // 
-            this.button1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.button1.Location = new System.Drawing.Point(482, 679);
-            this.button1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(207, 79);
-            this.button1.TabIndex = 2;
-            this.button1.Text = "Bắt đầu";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            button1.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            button1.Location = new Point(422, 509);
+            button1.Name = "button1";
+            button1.Size = new Size(181, 59);
+            button1.TabIndex = 2;
+            button1.Text = "Bắt đầu";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
             // 
             // label2
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(21, 244);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(83, 20);
-            this.label2.TabIndex = 3;
-            this.label2.Text = "Link Group:";
-            this.label2.Click += new System.EventHandler(this.label2_Click);
+            label2.AutoSize = true;
+            label2.Location = new Point(18, 183);
+            label2.Name = "label2";
+            label2.Size = new Size(68, 15);
+            label2.TabIndex = 3;
+            label2.Text = "Link Group:";
+            label2.Click += label2_Click;
             // 
             // rtbLinkGroup
             // 
-            this.rtbLinkGroup.Location = new System.Drawing.Point(25, 292);
-            this.rtbLinkGroup.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.rtbLinkGroup.Name = "rtbLinkGroup";
-            this.rtbLinkGroup.Size = new System.Drawing.Size(351, 127);
-            this.rtbLinkGroup.TabIndex = 4;
-            this.rtbLinkGroup.Text = "";
-            this.rtbLinkGroup.TextChanged += new System.EventHandler(this.rtbLinkBaiCanGhim_TextChanged);
+            rtbLinkGroup.Location = new Point(22, 219);
+            rtbLinkGroup.Name = "rtbLinkGroup";
+            rtbLinkGroup.Size = new Size(308, 96);
+            rtbLinkGroup.TabIndex = 4;
+            rtbLinkGroup.Text = "";
+            rtbLinkGroup.TextChanged += rtbLinkBaiCanGhim_TextChanged;
             // 
             // lblUid
             // 
-            this.lblUid.AutoSize = true;
-            this.lblUid.Location = new System.Drawing.Point(25, 48);
-            this.lblUid.Name = "lblUid";
-            this.lblUid.Size = new System.Drawing.Size(94, 20);
-            this.lblUid.TabIndex = 0;
-            this.lblUid.Text = "UID|Pass|2Fa:\r\n";
-            this.lblUid.Click += new System.EventHandler(this.label1_Click);
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(25, 108);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(199, 20);
-            this.label3.TabIndex = 6;
-            this.label3.Text = "Đường dẫn thư mục profiles:";
-            // 
-            // txtDuongDanThuMucProfiles
-            // 
-            this.txtDuongDanThuMucProfiles.Location = new System.Drawing.Point(236, 105);
-            this.txtDuongDanThuMucProfiles.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.txtDuongDanThuMucProfiles.Name = "txtDuongDanThuMucProfiles";
-            this.txtDuongDanThuMucProfiles.Size = new System.Drawing.Size(466, 27);
-            this.txtDuongDanThuMucProfiles.TabIndex = 7;
-            this.txtDuongDanThuMucProfiles.TextChanged += new System.EventHandler(this.txtDuongDanThuMucProfiles_TextChanged);
+            lblUid.AutoSize = true;
+            lblUid.Location = new Point(22, 36);
+            lblUid.Name = "lblUid";
+            lblUid.Size = new Size(76, 15);
+            lblUid.TabIndex = 0;
+            lblUid.Text = "UID|Pass|2Fa:\r\n";
+            lblUid.Click += label1_Click;
             // 
             // txtUidPassProxy2Fa
             // 
-            this.txtUidPassProxy2Fa.Location = new System.Drawing.Point(236, 49);
-            this.txtUidPassProxy2Fa.Name = "txtUidPassProxy2Fa";
-            this.txtUidPassProxy2Fa.Size = new System.Drawing.Size(466, 27);
-            this.txtUidPassProxy2Fa.TabIndex = 10;
-            this.txtUidPassProxy2Fa.TextChanged += new System.EventHandler(this.txtUidPassProxy2Fa_TextChanged);
+            txtUidPassProxy2Fa.Location = new Point(206, 37);
+            txtUidPassProxy2Fa.Margin = new Padding(3, 2, 3, 2);
+            txtUidPassProxy2Fa.Name = "txtUidPassProxy2Fa";
+            txtUidPassProxy2Fa.Size = new Size(408, 23);
+            txtUidPassProxy2Fa.TabIndex = 10;
+            txtUidPassProxy2Fa.TextChanged += txtUidPassProxy2Fa_TextChanged;
             // 
             // label4
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(14, 712);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(253, 20);
-            this.label4.TabIndex = 18;
-            this.label4.Text = "Thời gian nghỉ để chuyển link group: ";
+            label4.AutoSize = true;
+            label4.Location = new Point(12, 534);
+            label4.Name = "label4";
+            label4.Size = new Size(205, 15);
+            label4.TabIndex = 18;
+            label4.Text = "Thời gian nghỉ để chuyển link group: ";
             // 
             // numericUpDown1
             // 
-            this.numericUpDown1.Location = new System.Drawing.Point(273, 710);
-            this.numericUpDown1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.numericUpDown1.Maximum = new decimal(new int[] {
-            100000,
-            0,
-            0,
-            0});
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(137, 27);
-            this.numericUpDown1.TabIndex = 19;
-            this.numericUpDown1.ValueChanged += new System.EventHandler(this.numericUpDown1_ValueChanged);
+            numericUpDown1.Location = new Point(239, 532);
+            numericUpDown1.Maximum = new decimal(new int[] { 100000, 0, 0, 0 });
+            numericUpDown1.Name = "numericUpDown1";
+            numericUpDown1.Size = new Size(120, 23);
+            numericUpDown1.TabIndex = 19;
+            numericUpDown1.ValueChanged += numericUpDown1_ValueChanged;
             // 
             // chkSaveLogin
             // 
-            this.chkSaveLogin.AutoSize = true;
-            this.chkSaveLogin.Location = new System.Drawing.Point(728, 51);
-            this.chkSaveLogin.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.chkSaveLogin.Name = "chkSaveLogin";
-            this.chkSaveLogin.Size = new System.Drawing.Size(159, 24);
-            this.chkSaveLogin.TabIndex = 23;
-            this.chkSaveLogin.Text = "Lưu nhớ đăng nhập";
-            this.chkSaveLogin.UseVisualStyleBackColor = true;
-            this.chkSaveLogin.CheckedChanged += new System.EventHandler(this.cbSaveLogin_CheckedChanged);
+            chkSaveLogin.AutoSize = true;
+            chkSaveLogin.Location = new Point(637, 38);
+            chkSaveLogin.Name = "chkSaveLogin";
+            chkSaveLogin.Size = new Size(130, 19);
+            chkSaveLogin.TabIndex = 23;
+            chkSaveLogin.Text = "Lưu nhớ đăng nhập";
+            chkSaveLogin.UseVisualStyleBackColor = true;
+            chkSaveLogin.CheckedChanged += cbSaveLogin_CheckedChanged;
             // 
             // label6
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(437, 244);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(117, 20);
-            this.label6.TabIndex = 27;
-            this.label6.Text = "Content bài viết:";
+            label6.AutoSize = true;
+            label6.Location = new Point(382, 183);
+            label6.Name = "label6";
+            label6.Size = new Size(94, 15);
+            label6.TabIndex = 27;
+            label6.Text = "Content bài viết:";
             // 
             // label7
             // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(21, 480);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(259, 20);
-            this.label7.TabIndex = 28;
-            this.label7.Text = "Ngày đăng bài viết(tháng/ngày/năm):";
+            label7.AutoSize = true;
+            label7.Location = new Point(18, 360);
+            label7.Name = "label7";
+            label7.Size = new Size(208, 15);
+            label7.TabIndex = 28;
+            label7.Text = "Ngày đăng bài viết(tháng/ngày/năm):";
             // 
             // label8
             // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(437, 480);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(461, 20);
-            this.label8.TabIndex = 29;
-            this.label8.Text = "Thời gian đăng bài viết(XX:XX + AM|PM(AM buổi sáng, PM buổi tối):";
+            label8.AutoSize = true;
+            label8.Location = new Point(382, 360);
+            label8.Name = "label8";
+            label8.Size = new Size(370, 15);
+            label8.TabIndex = 29;
+            label8.Text = "Thời gian đăng bài viết(XX:XX + AM|PM(AM buổi sáng, PM buổi tối):";
             // 
             // rtbContent
             // 
-            this.rtbContent.Location = new System.Drawing.Point(437, 292);
-            this.rtbContent.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.rtbContent.Name = "rtbContent";
-            this.rtbContent.Size = new System.Drawing.Size(351, 127);
-            this.rtbContent.TabIndex = 30;
-            this.rtbContent.Text = "";
-            this.rtbContent.TextChanged += new System.EventHandler(this.rtbContent_TextChanged);
+            rtbContent.Location = new Point(382, 219);
+            rtbContent.Name = "rtbContent";
+            rtbContent.Size = new Size(308, 96);
+            rtbContent.TabIndex = 30;
+            rtbContent.Text = "";
+            rtbContent.TextChanged += rtbContent_TextChanged;
             // 
             // rtbDatePost
             // 
-            this.rtbDatePost.Location = new System.Drawing.Point(21, 517);
-            this.rtbDatePost.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.rtbDatePost.Name = "rtbDatePost";
-            this.rtbDatePost.Size = new System.Drawing.Size(351, 127);
-            this.rtbDatePost.TabIndex = 31;
-            this.rtbDatePost.Text = "";
-            this.rtbDatePost.TextChanged += new System.EventHandler(this.rtbDatePost_TextChanged);
+            rtbDatePost.Location = new Point(18, 388);
+            rtbDatePost.Name = "rtbDatePost";
+            rtbDatePost.Size = new Size(308, 96);
+            rtbDatePost.TabIndex = 31;
+            rtbDatePost.Text = "";
+            rtbDatePost.TextChanged += rtbDatePost_TextChanged;
             // 
             // rtbTimePost
             // 
-            this.rtbTimePost.Location = new System.Drawing.Point(437, 517);
-            this.rtbTimePost.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.rtbTimePost.Name = "rtbTimePost";
-            this.rtbTimePost.Size = new System.Drawing.Size(351, 127);
-            this.rtbTimePost.TabIndex = 32;
-            this.rtbTimePost.Text = "";
-            this.rtbTimePost.TextChanged += new System.EventHandler(this.rtbTimePost_TextChanged);
+            rtbTimePost.Location = new Point(382, 388);
+            rtbTimePost.Name = "rtbTimePost";
+            rtbTimePost.Size = new Size(308, 96);
+            rtbTimePost.TabIndex = 32;
+            rtbTimePost.Text = "";
+            rtbTimePost.TextChanged += rtbTimePost_TextChanged;
             // 
             // label1
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(25, 169);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(205, 20);
-            this.label1.TabIndex = 33;
-            this.label1.Text = "Đường dẫn thư mục hình ảnh:";
+            label1.AutoSize = true;
+            label1.Location = new Point(22, 78);
+            label1.Name = "label1";
+            label1.Size = new Size(167, 15);
+            label1.TabIndex = 33;
+            label1.Text = "Đường dẫn thư mục hình ảnh:";
             // 
             // rtbPathFileImg
             // 
-            this.rtbPathFileImg.Location = new System.Drawing.Point(236, 157);
-            this.rtbPathFileImg.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.rtbPathFileImg.Name = "rtbPathFileImg";
-            this.rtbPathFileImg.Size = new System.Drawing.Size(466, 83);
-            this.rtbPathFileImg.TabIndex = 34;
-            this.rtbPathFileImg.Text = "";
-            this.rtbPathFileImg.TextChanged += new System.EventHandler(this.rtbPathFileImg_TextChanged);
+            rtbPathFileImg.Location = new Point(206, 78);
+            rtbPathFileImg.Name = "rtbPathFileImg";
+            rtbPathFileImg.Size = new Size(408, 63);
+            rtbPathFileImg.TabIndex = 34;
+            rtbPathFileImg.Text = "";
+            rtbPathFileImg.TextChanged += rtbPathFileImg_TextChanged;
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(899, 772);
-            this.Controls.Add(this.rtbPathFileImg);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.rtbTimePost);
-            this.Controls.Add(this.rtbDatePost);
-            this.Controls.Add(this.rtbContent);
-            this.Controls.Add(this.label8);
-            this.Controls.Add(this.label7);
-            this.Controls.Add(this.label6);
-            this.Controls.Add(this.chkSaveLogin);
-            this.Controls.Add(this.numericUpDown1);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.txtUidPassProxy2Fa);
-            this.Controls.Add(this.txtDuongDanThuMucProfiles);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.rtbLinkGroup);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.lblUid);
-            this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.Name = "Form1";
-            this.Text = "Auto Pin Status";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing_1);
-            this.Load += new System.EventHandler(this.Form1_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(787, 579);
+            Controls.Add(rtbPathFileImg);
+            Controls.Add(label1);
+            Controls.Add(rtbTimePost);
+            Controls.Add(rtbDatePost);
+            Controls.Add(rtbContent);
+            Controls.Add(label8);
+            Controls.Add(label7);
+            Controls.Add(label6);
+            Controls.Add(chkSaveLogin);
+            Controls.Add(numericUpDown1);
+            Controls.Add(label4);
+            Controls.Add(txtUidPassProxy2Fa);
+            Controls.Add(rtbLinkGroup);
+            Controls.Add(label2);
+            Controls.Add(button1);
+            Controls.Add(lblUid);
+            Name = "Form1";
+            Text = "Auto Post Status Set TIme";
+            FormClosing += Form1_FormClosing_1;
+            Load += Form1_Load;
+            ((System.ComponentModel.ISupportInitialize)numericUpDown1).EndInit();
+            ResumeLayout(false);
+            PerformLayout();
 
         }
 
@@ -267,8 +233,6 @@
         private Label label2;
         private RichTextBox rtbLinkGroup;
         private Label lblUid;
-        private Label label3;
-        private TextBox txtDuongDanThuMucProfiles;
         private TextBox txtUidPassProxy2Fa;
         private Label label4;
         private NumericUpDown numericUpDown1;

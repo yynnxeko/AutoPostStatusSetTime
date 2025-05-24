@@ -28,8 +28,38 @@ namespace WinFormsApp1
         public Form1()
         {
             InitializeComponent();
+            CreateRequiredFiles(); // Thêm vào constructor
             chkSaveLogin.Checked = Properties.Settings.Default.isChecked;
 
+        }
+
+        private void CreateRequiredFiles()
+        {
+            string[] requiredFiles = new string[]
+            {
+                "savedLoginInput.txt",
+                "savedPathFileImg.txt",
+                "savedLinkBaiVietCanGhim.txt",
+                "savedContent.txt",
+                "savedDatePost.txt",
+                "savedTimePost.txt"
+            };
+
+            foreach (string file in requiredFiles)
+            {
+                try
+                {
+                    if (!File.Exists(file))
+                    {
+                        File.WriteAllText(file, string.Empty);
+                        Console.WriteLine($"Created file: {file}");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Không thể tạo file {file}: {ex.Message}");
+                }
+            }
         }
 
         ChromeHepler chromeHepler = null;
@@ -47,16 +77,12 @@ namespace WinFormsApp1
             int giaTri = 0;
             string[] danhSachLinkGroup = rtbLinkGroup.Text.Split("\n");
             string[] danhSachContent = rtbContent.Text.Split("|");
-
-
-
             string[] danhSachNgay = rtbDatePost.Text.Split("\n");
             string[] danhSachThoiGian = rtbTimePost.Text.Split("\n");
             string[] danhSachAnh = rtbPathFileImg.Text.Split("\n");
             string[] cookie = txtUidPassProxy2Fa.Text.Split("\n");
             string[] accountInfo = txtUidPassProxy2Fa.Text.Split("|");
-            string profileName = "Profile Dung";
-            string pathProfile = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\" + profileName;
+
             ChromeHepler chromeHepler = new ChromeHepler();
             string uid = accountInfo[0];
             string userName = accountInfo[0];
@@ -64,155 +90,197 @@ namespace WinFormsApp1
             string ma2FaChu = accountInfo[2];
             int delayInSecondsChangeLink = (int)numericUpDown1.Value;
             Thread.Sleep(5000);
-            pathProfile = pathProfile + "\\" + uid;
-            if (await chromeHepler.OpenDriver(pathProfile, isShowImage: true, 700, 700) == null)
-            {
-                MessageBox.Show(chromeHepler.ErrorMessage);
-                return;
-            }
-            chromeHepler.GoToUrl("https://facebook.com");
-            chromeHepler.AddCookie("https://facebook.com", cookie[0]);
-            chromeHepler.GoToUrl("https://facebook.com");
-            Thread.Sleep(2500);
 
-            Thread.Sleep(2500);
-            bool checkLogin = chromeHepler.FindElement(By.Id("email")) != null;            
-            if (checkLogin == true)
+
+            // Tạo port ngẫu nhiên cho instance này
+            int debuggerPort = ChromeSessionManager.GetAvailablePort();
+            string pathProfile = GetProfilePath(uid);
+            try
             {
-                string ma2Fa = GenerateTOTP(ma2FaChu);
-                string source = chromeHepler.chrome.PageSource;
-                bool isSendkeySuccess = chromeHepler.SendKeys(By.Id("email"), userName);
-                chromeHepler.Delay(3, 8);
-                isSendkeySuccess = chromeHepler.SendKeys(By.Id("pass"), password);
-                chromeHepler.Delay(3, 8);
-                bool isClickSuccess = chromeHepler.Click(By.Name("login"));
-                chromeHepler.Delay(3, 8);
-                bool checkCheckpoint = chromeHepler.FindElementExist(By.XPath("//span[text()=\"Try Another Way\"]"), 2);
-                bool checkCheckpointVn = chromeHepler.FindElementExist(By.XPath("//span[text()=\"Thử cách khác\"]"), 2);
-                if (checkCheckpoint)
+                // Sử dụng port khi khởi tạo driver                
+                Thread.Sleep(5000);
+                if (await chromeHepler.OpenDriver(pathProfile, isShowImage: true, 700, 700, debuggerPort) == null)
                 {
-                    chromeHepler.Delay(3, 8);
-                    chromeHepler.Click(By.XPath("//span[text()=\"Try Another Way\"]"));
-                    chromeHepler.Delay(3, 8);
-                    chromeHepler.Click(By.XPath("//div[text()=\"Authentication app\"]"));
-                    chromeHepler.Delay(3, 8);
-                    chromeHepler.Click(By.XPath("//span[text()=\"Continue\"]"));
-                    chromeHepler.Delay(3, 8);
-                    chromeHepler.SendKeys(chromeHepler.chrome, By.XPath("//input[@type=\"text\" and @tabindex=\"0\"]"), ma2Fa);
-                    chromeHepler.Delay(3, 8);
-                    chromeHepler.Click(By.XPath("//span[text()=\"Continue\"]"));
-                    chromeHepler.Delay(3, 8);
-                }
-                else if (checkCheckpointVn)
-                {
-                    chromeHepler.Delay(3, 8);
-                    chromeHepler.Click(By.XPath("//span[text()=\"Thử cách khác\"]"));
-                    chromeHepler.Delay(3, 8);
-                    chromeHepler.Click(By.XPath("//div[text()='Ứng dụng xác thực']"));
-                    chromeHepler.Delay(3, 8);
-                    chromeHepler.Click(By.XPath("//span[text()=\"Tiếp tục\"]"));
-                    chromeHepler.Delay(3, 8);
-                    chromeHepler.SendKeys(chromeHepler.chrome, By.XPath("//input[@type=\"text\" and @tabindex=\"0\"]"), ma2Fa);
-                    chromeHepler.Delay(3, 8);
-                    chromeHepler.Click(By.XPath("//span[text()=\"Tiếp tục\"]"));
-                    chromeHepler.Delay(3, 8);
-                }
-            }
-
-            chromeHepler.Delay(1, 5);
-            chromeHepler.GoToUrl("https://www.facebook.com/settings/?tab=language");
-            var checkLanguage = chromeHepler.FindElementExist(By.XPath("//span[text()='English (US)']"), 2);
-            if (!checkLanguage)
-            {
-                chromeHepler.Click(By.XPath("//span[text()='Tiếng Việt']"));
-                chromeHepler.Delay(1, 5);
-                chromeHepler.Click(By.XPath("//span[text()='English (US)']"));
-                chromeHepler.Delay(1, 5);
-
-            }
-            chromeHepler.Delay(1, 5);
-
-            //Vào link từng group 
-            for (int i = 0; i < danhSachLinkGroup.Length; i++)
-            {
-                if (danhSachLinkGroup[i] == "")
-                {
-                    chromeHepler.Delay(1, 5);
-                    chromeHepler.Quit();
+                    MessageBox.Show(chromeHepler.ErrorMessage);
                     return;
                 }
-                else
+                chromeHepler.GoToUrl("https://facebook.com");
+                chromeHepler.AddCookie("https://facebook.com", cookie[0]);
+                chromeHepler.GoToUrl("https://facebook.com");
+                Thread.Sleep(2500);
+
+                Thread.Sleep(2500);
+                bool checkLogin = chromeHepler.FindElement(By.Id("email")) != null;
+                if (checkLogin == true)
                 {
+                    string ma2Fa = GenerateTOTP(ma2FaChu);
+                    string source = chromeHepler.chrome.PageSource;
+                    bool isSendkeySuccess = chromeHepler.SendKeys(By.Id("email"), userName);
                     chromeHepler.Delay(3, 8);
-                    chromeHepler.GoToUrl(danhSachLinkGroup[i]);
+                    isSendkeySuccess = chromeHepler.SendKeys(By.Id("pass"), password);
                     chromeHepler.Delay(3, 8);
-
-                    var checkMenu = chromeHepler.FindElementExist(By.XPath("//span[text()='Write something...']"), 2);
-                    if (checkMenu)
-                    {
-                        chromeHepler.Click(By.XPath("//span[text()='Write something...']"));
-                    }
-                    chromeHepler.Delay(3, 8);                   
-                    chromeHepler.SendKeys(chromeHepler.chrome, By.XPath("//div[@aria-placeholder='Create a public post…']"), danhSachContent[i]);
+                    bool isClickSuccess = chromeHepler.Click(By.Name("login"));
                     chromeHepler.Delay(3, 8);
-                    chromeHepler.Click(By.XPath("//div[@aria-label='Photo/video']"));
-                    chromeHepler.Delay(3, 8);
-                    string folderPath = danhSachAnh[i];
-                    // Các định dạng ảnh hợp lệ
-                    string[] imageExtensions = { ".jpg", ".jpeg", ".png", ".gif", ".bmp", ".tiff" };
+                    bool checkCheckpoint = chromeHepler.FindElementExist(By.XPath("//span[text()=\"Try Another Way\"]"), 2);
+                    bool checkCheckpointVn = chromeHepler.FindElementExist(By.XPath("//span[text()=\"Thử cách khác\"]"), 2);
+                    if (checkCheckpoint)
+                    {
+                        chromeHepler.Delay(3, 8);
+                        chromeHepler.Click(By.XPath("//span[text()=\"Try Another Way\"]"));
+                        chromeHepler.Delay(3, 8);
+                        chromeHepler.Click(By.XPath("//div[text()=\"Authentication app\"]"));
+                        chromeHepler.Delay(3, 8);
+                        chromeHepler.Click(By.XPath("//span[text()=\"Continue\"]"));
+                        chromeHepler.Delay(3, 8);
+                        chromeHepler.SendKeys(chromeHepler.chrome, By.XPath("//input[@type=\"text\" and @tabindex=\"0\"]"), ma2Fa);
+                        chromeHepler.Delay(3, 8);
+                        chromeHepler.Click(By.XPath("//span[text()=\"Continue\"]"));
+                        chromeHepler.Delay(3, 8);
+                    }
+                    else if (checkCheckpointVn)
+                    {
+                        chromeHepler.Delay(3, 8);
+                        chromeHepler.Click(By.XPath("//span[text()=\"Thử cách khác\"]"));
+                        chromeHepler.Delay(3, 8);
+                        chromeHepler.Click(By.XPath("//div[text()='Ứng dụng xác thực']"));
+                        chromeHepler.Delay(3, 8);
+                        chromeHepler.Click(By.XPath("//span[text()=\"Tiếp tục\"]"));
+                        chromeHepler.Delay(3, 8);
+                        chromeHepler.SendKeys(chromeHepler.chrome, By.XPath("//input[@type=\"text\" and @tabindex=\"0\"]"), ma2Fa);
+                        chromeHepler.Delay(3, 8);
+                        chromeHepler.Click(By.XPath("//span[text()=\"Tiếp tục\"]"));
+                        chromeHepler.Delay(3, 8);
+                    }
+                }
 
-                    if (folderPath.Length > 0)
-                    {
-                        var images = Directory.GetFiles(folderPath, "*.*", SearchOption.TopDirectoryOnly)
-                       .Where(file => imageExtensions.Contains(Path.GetExtension(file), StringComparer.OrdinalIgnoreCase))
-                       .ToList();
-                        if (images.Count > 0)
-                        {
-                            var elements = chromeHepler.chrome.FindElements(By.XPath("//input[@type='file' and @multiple]"));
-                            elements.Last().SendKeys(string.Join("\n", images));
-                        }
-                    }
-
-                    var element = chromeHepler.FindElementExist(By.XPath("//i[contains(@style, 'background-image') and contains(@style, 'l7vZatYS2lP.png')]"),2);
-                    if (element)
-                    {
-                        chromeHepler.Click(By.XPath("//i[contains(@style, 'background-image') and contains(@style, 'l7vZatYS2lP.png')]"));
-                    }
-                    chromeHepler.Delay(3, 9);                                        
-                    chromeHepler.Delay(3, 9);
-                    var chooseDate = chromeHepler.FindElement(By.XPath("//span[text()='Date' and @aria-label]"));
-                    if (chooseDate != null)
-                    {
-                        ((IJavaScriptExecutor)chromeHepler.chrome).ExecuteScript("arguments[0].click();", chooseDate);
-                    }
-                    chromeHepler.Delay(3, 9);
-                    
-                    chromeHepler.SendKeys(By.XPath("//input[@role='combobox' and @aria-autocomplete='none']"), danhSachNgay[i]);
-                    chromeHepler.Delay(3, 9);
-                    var chooseTime = chromeHepler.FindElement(By.XPath("//span[text()='Time' and @aria-label]"));
-                    if (chooseTime != null)
-                    {
-                        ((IJavaScriptExecutor)chromeHepler.chrome).ExecuteScript("arguments[0].click();", chooseTime);
-                    }
-                    chromeHepler.Delay(3, 9);
-                    var timeInput = chromeHepler.FindElement(By.XPath("//input[@role='combobox' and @placeholder='00:00']"));
-                    if (timeInput != null)
-                    {
-                        timeInput.SendKeys(danhSachThoiGian[i]);
-                        chromeHepler.Delay(3, 9);
-                        timeInput.SendKeys(Keys.Enter);
-                    }
-                    chromeHepler.Delay(5, 9);
-                    chromeHepler.Click(By.XPath("//span[text()='Schedule']"));
-                    chromeHepler.Delay(15, 20);
-
-                    Thread.Sleep(delayInSecondsChangeLink * 1000);
+                chromeHepler.Delay(1, 5);
+                chromeHepler.GoToUrl("https://www.facebook.com/settings/?tab=language");
+                var checkLanguage = chromeHepler.FindElementExist(By.XPath("//span[text()='English (US)']"), 2);
+                if (!checkLanguage)
+                {
+                    chromeHepler.Click(By.XPath("//span[text()='Tiếng Việt']"));
+                    chromeHepler.Delay(1, 5);
+                    chromeHepler.Click(By.XPath("//span[text()='English (US)']"));
+                    chromeHepler.Delay(1, 5);
 
                 }
+                chromeHepler.Delay(1, 5);
+
+                //Vào link từng group 
+                for (int i = 0; i < danhSachLinkGroup.Length; i++)
+                {
+                    if (danhSachLinkGroup[i] == "")
+                    {
+                        chromeHepler.Delay(1, 5);
+                        chromeHepler.Quit();
+                        return;
+                    }
+                    else
+                    {
+                        chromeHepler.Delay(3, 8);
+                        chromeHepler.GoToUrl(danhSachLinkGroup[i]);
+                        chromeHepler.Delay(3, 8);
+
+                        var checkMenu = chromeHepler.FindElementExist(By.XPath("//span[text()='Write something...']"), 2);
+                        if (checkMenu)
+                        {
+                            chromeHepler.Click(By.XPath("//span[text()='Write something...']"));
+                        }
+                        chromeHepler.Delay(3, 8);
+                        chromeHepler.SendKeys(chromeHepler.chrome, By.XPath("//div[@aria-placeholder='Create a public post…']"), danhSachContent[i] + " ");
+                        chromeHepler.Delay(3, 8);
+                        var textbox = chromeHepler.FindElement(By.XPath("//div[@role='textbox' and @contenteditable='true']"));
+                        if (textbox != null)
+
+                            chromeHepler.Click(By.XPath("//div[@aria-label='Photo/video']"));
+                        chromeHepler.Delay(3, 8);
+                        string folderPath = danhSachAnh[i];
+                        // Các định dạng ảnh hợp lệ
+                        string[] imageExtensions = { ".jpg", ".jpeg", ".png", ".gif", ".bmp", ".tiff" };
+
+                        if (folderPath.Length > 0)
+                        {
+                            var images = Directory.GetFiles(folderPath, "*.*", SearchOption.TopDirectoryOnly)
+                           .Where(file => imageExtensions.Contains(Path.GetExtension(file), StringComparer.OrdinalIgnoreCase))
+                           .ToList();
+                            if (images.Count > 0)
+                            {
+                                var elements = chromeHepler.chrome.FindElements(By.XPath("//input[@type='file' and @multiple]"));
+                                elements.Last().SendKeys(string.Join("\n", images));
+                            }
+                        }
+
+                        var scheduleButton = chromeHepler.FindElement(By.XPath("//div[@aria-label='Schedule post' and @role='button']"));
+                        if (scheduleButton != null)
+                        {
+                            ChromeHepler.ScrollIntoView(chromeHepler.chrome, scheduleButton);
+                            chromeHepler.Delay(1, 2);
+                            ((IJavaScriptExecutor)chromeHepler.chrome).ExecuteScript("arguments[0].click();", scheduleButton);
+                        }
+
+                        chromeHepler.Delay(3, 9);
+                        var chooseDate = chromeHepler.FindElement(By.XPath("//span[text()='Date' and @aria-label]"));
+                        if (chooseDate != null)
+                        {
+                            ((IJavaScriptExecutor)chromeHepler.chrome).ExecuteScript("arguments[0].click();", chooseDate);
+                        }
+                        chromeHepler.Delay(3, 9);
+
+                        chromeHepler.SendKeys(By.XPath("//input[@role='combobox' and @aria-autocomplete='none']"), danhSachNgay[i]);
+                        chromeHepler.Delay(3, 9);
+                        var chooseTime = chromeHepler.FindElement(By.XPath("//span[text()='Time' and @aria-label]"));
+                        if (chooseTime != null)
+                        {
+                            ((IJavaScriptExecutor)chromeHepler.chrome).ExecuteScript("arguments[0].click();", chooseTime);
+                        }
+                        chromeHepler.Delay(3, 9);
+                        var timeInput = chromeHepler.FindElement(By.XPath("//input[@role='combobox' and @placeholder='00:00']"));
+                        if (timeInput != null)
+                        {
+                            timeInput.SendKeys(danhSachThoiGian[i]);
+                            chromeHepler.Delay(3, 9);
+                            timeInput.SendKeys(Keys.Enter);
+                        }
+                        chromeHepler.Delay(5, 9);
+                        chromeHepler.Click(By.XPath("//span[text()='Schedule']"));
+                        chromeHepler.Delay(15, 20);
+
+                        Thread.Sleep(delayInSecondsChangeLink * 1000);
+
+                    }
+                }
+                chromeHepler.Quit();
             }
-            chromeHepler.Quit();
+            finally
+            {
+                // Giải phóng port khi đã dùng xong
+                ChromeSessionManager.ReleasePort(debuggerPort);
+            }
         }
 
+        private string GetProfilePath(string uid)
+        {
+            // Lấy đường dẫn đến thư mục của project
+            string projectDirectory = AppDomain.CurrentDomain.BaseDirectory;
+
+            // Tạo thư mục "Profiles" trong thư mục project nếu chưa có
+            string profilesFolder = Path.Combine(projectDirectory, "Profiles");
+            if (!Directory.Exists(profilesFolder))
+            {
+                Directory.CreateDirectory(profilesFolder);
+            }
+
+            // Tạo đường dẫn đến profile cụ thể
+            string profilePath = Path.Combine(profilesFolder, uid);
+
+            // Đảm bảo thư mục profile tồn tại
+            if (!Directory.Exists(profilePath))
+            {
+                Directory.CreateDirectory(profilePath);
+            }
+
+            return profilePath;
+        }
 
         private void label1_Click(object sender, EventArgs e)
         {
@@ -265,27 +333,46 @@ namespace WinFormsApp1
 
         public string checkFileExist(string nameFile, string inputText)
         {
-            if (chkSaveLogin.Checked)
+            try
             {
-
-                if (!string.IsNullOrEmpty(inputText))
+                // Tạo file nếu chưa tồn tại
+                if (!File.Exists(nameFile))
                 {
-                    File.WriteAllText(nameFile, inputText);
-                    return inputText;
+                    File.WriteAllText(nameFile, string.Empty);
                 }
-                // Đọc nội dung từ tệp "savedInput.txt"
-                string inputFromFile = File.ReadAllText(nameFile);
-                return inputFromFile;
+
+                if (chkSaveLogin.Checked)
+                {
+                    if (!string.IsNullOrEmpty(inputText))
+                    {
+                        File.WriteAllText(nameFile, inputText);
+                        return inputText;
+                    }
+
+                    // Đọc nội dung từ file nếu tồn tại
+                    if (File.Exists(nameFile))
+                    {
+                        string inputFromFile = File.ReadAllText(nameFile);
+                        if (!string.IsNullOrEmpty(inputFromFile))
+                        {
+                            return inputFromFile;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Lỗi khi xử lý file {nameFile}: {ex.Message}");
             }
             return string.Empty;
         }
+
         private void cbSaveLogin_CheckedChanged(object sender, EventArgs e)
         {
             chkSaveLogin.CheckedChanged += cbSaveLogin_CheckedChanged;
             Properties.Settings.Default.isChecked = chkSaveLogin.Checked;
             Properties.Settings.Default.Save();
             txtUidPassProxy2Fa.Text = checkFileExist("savedLoginInput.txt", txtUidPassProxy2Fa.Text.Trim());
-            txtDuongDanThuMucProfiles.Text = checkFileExist("savedProfileLink.txt", txtDuongDanThuMucProfiles.Text.Trim());
             rtbPathFileImg.Text = checkFileExist("savedPathFileImg.txt", rtbPathFileImg.Text.Trim());
             rtbLinkGroup.Text = checkFileExist("savedLinkBaiVietCanGhim.txt", rtbLinkGroup.Text.Trim());
             rtbContent.Text = checkFileExist("savedContent.txt", rtbContent.Text.Trim());
@@ -301,7 +388,7 @@ namespace WinFormsApp1
 
         private void txtDuongDanThuMucProfiles_TextChanged(object sender, EventArgs e)
         {
-            File.WriteAllText("savedProfileLink.txt", txtDuongDanThuMucProfiles.Text.Trim());
+
         }
 
         private void rtbLinkBaiCanGhim_TextChanged(object sender, EventArgs e)
@@ -327,6 +414,41 @@ namespace WinFormsApp1
         private void rtbTimePost_TextChanged(object sender, EventArgs e)
         {
             File.WriteAllText("savedTimePost.txt", rtbTimePost.Text.Trim());
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+
+        }
+    }
+
+    public class ChromeSessionManager
+    {
+        private static List<int> _usedPorts = new List<int>();
+        private static object _lock = new object();
+        
+        public static int GetAvailablePort()
+        {
+            lock (_lock)
+            {
+                Random rand = new Random();
+                int port;
+                do
+                {
+                    port = rand.Next(9222, 9999);
+                } while (_usedPorts.Contains(port));
+                
+                _usedPorts.Add(port);
+                return port;
+            }
+        }
+        
+        public static void ReleasePort(int port)
+        {
+            lock (_lock)
+            {
+                _usedPorts.Remove(port);
+            }
         }
     }
 }

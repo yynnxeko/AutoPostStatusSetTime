@@ -58,14 +58,27 @@ namespace WinFormsApp1.Helpers
         {
         }
 
-        public async Task<ChromeResult> OpenDriver(string pathProfile = "", bool isShowImage = true, int chromeSizeWidth = 300, int chromeSizeHeight = 300)
+        public async Task<ChromeResult> OpenDriver(string pathProfile = "", bool isShowImage = true, int chromeSizeWidth = 300, int chromeSizeHeight = 300, int debuggerPort = 0)
         {
             try
             {
                 ChromeOptions chromeOptions = new ChromeOptions();
                 ChromeDriverService chromeDriverService = ChromeDriverService.CreateDefaultService();
+
+                // Đặt cổng Chrome debug port ngẫu nhiên nếu không được chỉ định
+                if (debuggerPort == 0)
+                {
+                    Random random = new Random();
+                    debuggerPort = random.Next(9222, 9999); // Chọn port ngẫu nhiên từ 9222 đến 9999
+                }
+
                 string pathChrome = ChromeService.GetPathChrome();
                 chromeOptions.BinaryLocation = pathChrome;
+
+                // Thêm cấu hình debugger-address để tránh xung đột
+                chromeOptions.AddArgument($"--remote-debugging-port={debuggerPort}");
+                // Thêm ID duy nhất cho mỗi instance
+                chromeOptions.AddArgument($"--user-data-dir-suffix={Guid.NewGuid()}");
 
                 chromeOptions.AddUserProfilePreference("profile.default_content_setting_values.notifications", 2);
 
@@ -83,6 +96,12 @@ namespace WinFormsApp1.Helpers
                 chromeOptions.AddUserProfilePreference("profile.password_manager_enabled", true);
                 chromeDriverService.SuppressInitialDiagnosticInformation = true;
                 chromeDriverService.HideCommandPromptWindow = true;
+
+                // Thêm các options để tránh phát hiện automation
+                chromeOptions.AddArgument("--disable-blink-features=AutomationControlled");
+                chromeOptions.AddAdditionalOption("useAutomationExtension", false);
+                chromeOptions.AddExcludedArgument("enable-automation");
+
                 chromeResult = new ChromeResult();
                 chromeResult.ChromeDriver = new ChromeDriver(chromeDriverService, chromeOptions);
                 chromeResult.IdProcess = chromeDriverService.ProcessId;
