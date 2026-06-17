@@ -1,0 +1,133 @@
+{
+  "version": "1.0",
+  "lastUpdated": "2026-06-17",
+  "login": {
+    "emailInput": [
+      "input[name='email']",
+      "input[id='email']",
+      "#email"
+    ],
+    "passwordInput": [
+      "input[name='pass']",
+      "input[id='pass']",
+      "#pass"
+    ],
+    "loginButton": [
+      "button[name='login']",
+      "button[type='submit']",
+      "[role='button']:has-text('Đăng nhập')",
+      "[role='button']:has-text('Log In')",
+      "button:has-text('Log In')",
+      "button:has-text('Đăng nhập')"
+    ],
+    "tryAnotherWay": [
+      "//span[text()='Try Another Way']",
+      "//span[text()='Thử cách khác']",
+      "span:has-text('Try Another Way')",
+      "span:has-text('Thử cách khác')"
+    ],
+    "authAppOption": [
+      "//div[text()='Authentication app']",
+      "//div[text()='Ứng dụng xác thực']",
+      "div:has-text('Authentication app')",
+      "div:has-text('Ứng dụng xác thực')"
+    ],
+    "continueBtn": [
+      "//span[text()='Continue']",
+      "//span[text()='Tiếp tục']",
+      "span:has-text('Continue')",
+      "span:has-text('Tiếp tục')"
+    ],
+    "twoFactorCodeInput": [
+      "input[type='text'][tabindex='0']",
+      "input[name='approvals_code']",
+      "input[id='approvals_code']",
+      "#approvals_code",
+      "input[name='approvals_code_text']",
+      "input[name='verificationCode']"
+    ],
+    "twoFactorSubmitButton": [
+      "button[id='checkpointSubmitButton']",
+      "#checkpointSubmitButton",
+      "button[name='submit[SubmitCode]']",
+      "button[name='confirm']",
+      "button:has-text('Tiếp tục')",
+      "button:has-text('Continue')",
+      "button:has-text('Gửi mã')",
+      "input[type='submit']"
+    ],
+    "saveBrowserSkipButton": [
+      "button:has-text('Tiếp tục')",
+      "button:has-text('Continue')",
+      "button:has-text('OK')",
+      "button:has-text('Lúc khác')",
+      "button:has-text('Not now')",
+      "a:has-text('Lúc khác')",
+      "a:has-text('Not now')",
+      "a:has-text('Bỏ qua')",
+      "a:has-text('Skip')",
+      "div[role='button']:has-text('Continue')",
+      "div[role='button']:has-text('Tiếp tục')"
+    ]
+  },
+  "language": {
+    "englishUs": [
+      "//span[text()='English (US)']",
+      "span:has-text('English (US)')"
+    ],
+    "tiengViet": [
+      "//span[text()='Tiếng Việt']",
+      "span:has-text('Tiếng Việt')"
+    ]
+  },
+  "composer": {
+    "openButton": [
+      "//span[text()='Write something...']",
+      "span:has-text('Write something...')",
+      "[aria-label='Write something...']"
+    ],
+    "postTextbox": [
+      "div[aria-placeholder='Create a public post…']",
+      "div[role='textbox'][contenteditable='true']"
+    ],
+    "photoVideoBtn": [
+      "div[aria-label='Photo/video']"
+    ],
+    "fileInput": [
+      "input[type='file'][multiple]",
+      "input[type='file']"
+    ],
+    "scheduleToggle": [
+      "div[aria-label='Schedule post'][role='button']",
+      "div[aria-label='Lên lịch bài viết'][role='button']"
+    ]
+  },
+  "scheduler": {
+    "chooseDate": [
+      "//span[text()='Date' and @aria-label]",
+      "span:has-text('Date')[aria-label]"
+    ],
+    "dateInput": [
+      "input[role='combobox'][aria-autocomplete='none']",
+      "input[placeholder*='date']",
+      "input[placeholder*='ngày']"
+    ],
+    "chooseTime": [
+      "//span[text()='Time' and @aria-label]",
+      "span:has-text('Time')[aria-label]"
+    ],
+    "timeInput": [
+      "input[role='combobox'][placeholder='00:00']",
+      "input[placeholder*='time']",
+      "input[placeholder*='giờ']"
+    ],
+    "confirmButton": [
+      "//span[text()='Schedule']",
+      "//span[text()='Lên lịch']",
+      "span:has-text('Schedule')",
+      "span:has-text('Lên lịch')",
+      "div[role='button']:has-text('Schedule')",
+      "div[role='button']:has-text('Lên lịch')"
+    ]
+  }
+}
